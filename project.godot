@@ -1,0 +1,8 @@
+; Engine configuration file.
+; It's best edited using the editor UI.
+; If you edit this file manually, please note that the parser is not fully compatible with the ConfigParser format.
+
+[application]
+config/name="High Kick Hell"
+run/main_scene="res://scenes/MainMenu.tscn"
+
