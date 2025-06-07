@@ -1,0 +1,32 @@
+{
+    "Roundhouse Kick": {
+        "name": "Roundhouse Kick",
+        "attacker": "Pepper",
+        "start_image": "res://art/roundhouse_start.png",
+        "hit_image": "res://art/roundhouse_impact.png",
+        "miss_image": "res://art/miss_blank.png",
+        "dodge_image": "res://art/dodge_frame.png",
+        "start_text": "Pepper goes for a roundhouse kick!",
+        "hit_text": "It slams directly into his jaw!",
+        "critical_text": "A devastating roundhouse connects!",
+        "miss_text": "But she misses!",
+        "dodge_text": "Damien barely ducks under it!",
+        "damage": 25,
+        "can_be_dodged": true
+    },
+    "Dropkick": {
+        "name": "Dropkick",
+        "attacker": "Pepper",
+        "start_image": "res://art/dropkick_start.png",
+        "hit_image": "res://art/dropkick_impact.png",
+        "miss_image": "res://art/miss_blank.png",
+        "dodge_image": "res://art/dropkick_dodge.png",
+        "start_text": "Pepper leaps with a dropkick!",
+        "hit_text": "The blow sends Damien stumbling!",
+        "critical_text": "She crushes Damien with extreme force!",
+        "miss_text": "But she lands short!",
+        "dodge_text": "Damien sidesteps with ease!",
+        "damage": 20,
+        "can_be_dodged": true
+    }
+}

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[resource]
+name = "Roundhouse Kick"
+start_image = "res://content/bosses/template/attacks/roundhouse_start.png"
+hit_image = "res://content/bosses/template/attacks/roundhouse_hit.png"
+miss_image = "res://content/bosses/template/attacks/roundhouse_miss.png"
+dodge_image = "res://content/bosses/template/attacks/roundhouse_dodge.png"
+start_text = "The boss spins into a brutal kick!"
+hit_text = "It lands squarely on Damien!"
+miss_text = "But it whiffs entirely!"
+dodge_text = "Damien ducks under the attack!"
+damage = 20
+can_be_dodged = true
+
