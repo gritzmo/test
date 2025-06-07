@@ -1,5 +1,4 @@
 extends Control
-class_name BattleUI
 
 """
 Handles all battle interface elements including command buttons,

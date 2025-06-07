@@ -1,5 +1,4 @@
 extends Node
-class_name SoundManager
 
 """
 Plays combat sound effects such as hits, misses and criticals.

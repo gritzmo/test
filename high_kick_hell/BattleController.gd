@@ -1,5 +1,4 @@
 extends Node
-class_name BattleController
 
 """
 Controls the overall flow of a single battle.

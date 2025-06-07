@@ -1,5 +1,4 @@
 extends Node
-class_name Stats
 
 """
 Provides basic stat calculations for combat. Adjust these formulas to
