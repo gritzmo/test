@@ -1,5 +1,4 @@
 extends TextureRect
-class_name PortraitHandler
 
 """Manages Damien's portrait in the dialogue box.
 Loads textures for different tones and handles fade in/out transitions."""

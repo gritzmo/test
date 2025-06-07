@@ -1,5 +1,4 @@
 extends Node
-class_name DialogueManager
 
 """
 Singleton used to display Undertale-style dialogue one letter at a time.

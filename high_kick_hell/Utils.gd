@@ -1,5 +1,4 @@
 extends Node
-class_name Utils
 
 """Utility functions shared across High Kick Hell scripts."""
 

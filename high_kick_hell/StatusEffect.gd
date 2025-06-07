@@ -1,5 +1,4 @@
 extends Resource
-class_name StatusEffect
 
 # Resource representing a single status effect applied to a character.
 # Callbacks can be overridden or provided via dictionary when creating the effect.

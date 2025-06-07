@@ -1,5 +1,4 @@
 extends Resource
-class_name AttackDatabase
 
 # Holds attack data loaded from JSON. Each attack entry can include
 # fields like images, damage values and flavor text used for the

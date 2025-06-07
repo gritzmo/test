@@ -1,5 +1,4 @@
 extends Node
-class_name StatusEffectManager
 
 """
 Keeps track of all buffs, debuffs and status effects in battle.
