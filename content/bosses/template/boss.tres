@@ -1,0 +1,16 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[resource]
+script = ExtResource( 1 )
+display_name = "Template Boss"
+max_hp = 100
+max_sp = 50
+strength = 10
+defense = 5
+agility = 8
+critical_chance = 0.1
+poses = {"neutral":"res://content/bosses/template/poses/neutral.png"}
+attacks = ["res://content/bosses/template/attacks/sample_attack.tres"]
+
+[ext_resource path="res://engine/BossLoader.gd" type="Script" id=1]
+
