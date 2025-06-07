@@ -21,12 +21,12 @@ HOW:
     - Adds a menu entry under Tools so it can be run from the editor
 """
 
-const MENU_TEXT := "Run Project Fixer"
-const STUB_DIR := "res://generated_scenes/"
-const INDEX_FILE := STUB_DIR + "README.txt"
+const MENU_TEXT = "Run Project Fixer"
+const STUB_DIR = "res://generated_scenes/"
+const INDEX_FILE = STUB_DIR + "README.txt"
 
-var errors_flagged := 0
-var scenes_generated := 0
+var errors_flagged = 0
+var scenes_generated = 0
 var new_scene_paths: Array[String] = []
 var class_name_map: Dictionary = {}
 
@@ -45,7 +45,7 @@ func _run_fixer() -> void:
     class_name_map.clear()
     _ensure_stub_dir()
 
-    var scripts := _get_scripts("res://")
+    var scripts = _get_scripts("res://")
     for path in scripts:
         _audit_and_fix_script(path)
     for path in scripts:
@@ -60,13 +60,13 @@ func _ensure_stub_dir() -> void:
 
 func _get_scripts(base_path: String) -> Array[String]:
     var result: Array[String] = []
-    var dir := DirAccess.open(base_path)
+    var dir = DirAccess.open(base_path)
     if dir == null:
         return result
     dir.list_dir_begin(true, true)
-    var file := dir.get_next()
+    var file = dir.get_next()
     while file != "":
-        var full_path := base_path.path_join(file)
+        var full_path = base_path.path_join(file)
         if dir.current_is_dir():
             result += _get_scripts(full_path)
         elif file.ends_with(".gd"):
@@ -76,20 +76,20 @@ func _get_scripts(base_path: String) -> Array[String]:
     return result
 
 func _audit_and_fix_script(path: String) -> void:
-    var changed := false
-    var file := FileAccess.open(path, FileAccess.READ)
+    var changed = false
+    var file = FileAccess.open(path, FileAccess.READ)
     if file == null:
         return
-    var lines := file.get_as_text().split("\n")
+    var lines = file.get_as_text().split("\n")
     file.close()
 
-    var base_file := path.get_file()
-    var script_name := base_file.get_basename()
+    var base_file = path.get_file()
+    var script_name = base_file.get_basename()
 
-    var class_line_idx := -1
-    var class_name := ""
+    var class_line_idx = -1
+    var class_name = ""
     for i in range(lines.size()):
-        var t := lines[i].strip_edges()
+        var t = lines[i].strip_edges()
         if t.begins_with("class_name "):
             class_line_idx = i
             class_name = t.get_slice(" ", 1).strip_edges()
@@ -106,11 +106,12 @@ func _audit_and_fix_script(path: String) -> void:
         else:
             class_name_map[class_name] = path
 
-    var lang := GDScriptLanguage.get_singleton()
-    var parse_err := lang.parse(path)
+    var lang = GDScriptLanguage.get_singleton()
+    var source_code = FileAccess.get_file_as_string(path)
+    var parse_err = lang.parse(source_code, path)
     if parse_err != OK:
         errors_flagged += 1
-        var msg := "Parse error"
+        var msg = "Parse error"
         if lang.has_method("get_error_text"):
             msg = lang.get_error_text()
         print_rich("[color=yellow]%s: %s[/color]" % [path, msg])
@@ -119,13 +120,13 @@ func _audit_and_fix_script(path: String) -> void:
         changed = true
 
     if changed:
-        var out := String("\n").join(lines)
+        var out = String("\n").join(lines)
         file = FileAccess.open(path, FileAccess.WRITE)
         file.store_string(out)
         file.close()
 
 func _prepend_fixme(lines: Array, msg: String) -> void:
-    var fixme := "# FIX-ME (ProjectFixer): " + msg
+    var fixme = "# FIX-ME (ProjectFixer): " + msg
     if lines.size() == 0:
         lines.append(fixme)
         return
@@ -135,12 +136,12 @@ func _prepend_fixme(lines: Array, msg: String) -> void:
         lines[0] += " | " + msg
 
 func _strip_stray_identifiers(lines: Array) -> Array:
-    var allowed := ["#", "extends", "class_name", "const", "var ", "func ", "static func", "signal", "enum", "@"]
+    var allowed = ["#", "extends", "class_name", "const", "var ", "func ", "static func", "signal", "enum", "@"]
     for i in range(lines.size()):
-        var t := lines[i].strip_edges()
+        var t = lines[i].strip_edges()
         if t == "":
             continue
-        var ok := false
+        var ok = false
         for prefix in allowed:
             if t.begins_with(prefix):
                 ok = true
@@ -150,47 +151,47 @@ func _strip_stray_identifiers(lines: Array) -> Array:
     return lines
 
 func _ensure_scene_for_script(script_path: String) -> void:
-    var script_name := script_path.get_file().get_basename()
-    var scene_path := STUB_DIR + script_name + ".tscn"
+    var script_name = script_path.get_file().get_basename()
+    var scene_path = STUB_DIR + script_name + ".tscn"
     if ResourceLoader.exists(scene_path):
         return
 
-    var base_class := "Node"
-    var text := FileAccess.get_file_as_string(script_path)
+    var base_class = "Node"
+    var text = FileAccess.get_file_as_string(script_path)
     for line in text.split("\n"):
-        var trim := line.strip_edges()
+        var trim = line.strip_edges()
         if trim.begins_with("extends"):
             base_class = trim.get_slice(" ", 1).strip_edges()
             if base_class == "":
                 base_class = "Node"
             break
 
-    var root := ClassDB.instantiate(base_class)
+    var root = ClassDB.instantiate(base_class)
     if root == null:
         root = Node.new()
-    var script_resource := load(script_path)
+    var script_resource = load(script_path)
     root.set_script(script_resource)
-    var scene := PackedScene.new()
+    var scene = PackedScene.new()
     scene.pack(root)
 
-    var err := ResourceSaver.save(scene_path, scene)
+    var err = ResourceSaver.save(scene_path, scene)
     if err == OK:
         scenes_generated += 1
         new_scene_paths.append(scene_path)
 
 func _update_index() -> void:
-    var lines := []
+    var lines = []
     if FileAccess.file_exists(INDEX_FILE):
-        var f := FileAccess.open(INDEX_FILE, FileAccess.READ)
+        var f = FileAccess.open(INDEX_FILE, FileAccess.READ)
         lines = f.get_as_text().split("\n")
         f.close()
     for p in new_scene_paths:
         if p not in lines:
             lines.append(p)
-    var out := "Stub scenes generated by ProjectFixer.\nReplace them with real scenes when ready.\n\n"
+    var out = "Stub scenes generated by ProjectFixer.\nReplace them with real scenes when ready.\n\n"
     for l in lines:
         if l.strip_edges() != "":
             out += l + "\n"
-    var f2 := FileAccess.open(INDEX_FILE, FileAccess.WRITE)
+    var f2 = FileAccess.open(INDEX_FILE, FileAccess.WRITE)
     f2.store_string(out)
     f2.close()
